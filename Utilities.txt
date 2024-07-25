@@ -1,3 +1,0 @@
-vite
-React js
-Tailwind css
