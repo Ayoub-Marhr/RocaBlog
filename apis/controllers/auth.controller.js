@@ -1,6 +1,6 @@
 import User from '../models/user.model.js';
 import bcryptjs from 'bcryptjs'
-export const signup = async (req, res) => {
+export const signup = async (req, res,next) => {
     try {
         const { username, email, password, department, job } = req.body;
 
@@ -27,6 +27,7 @@ export const signup = async (req, res) => {
 
         const savedUser = await newUser.save();
         res.status(201).json(savedUser);
+        next(error)
     } catch (err) {
         if (err.code === 11000) {
             // Duplicate key error

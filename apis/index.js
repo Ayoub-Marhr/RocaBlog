@@ -20,3 +20,12 @@ mongoose.connect('mongodb+srv://root:root@mern-blog.seiqug2.mongodb.net/?retryWr
 // Use routes
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoute);
+app.use((err,req,res,next)=>{
+    const statusCode = err.statusCode || 500
+    const message = err.message || 'Internal Server Erreur '
+    res.status(statusCode).json({    
+        success:  false,
+        statusCode,
+        message
+    })
+})
