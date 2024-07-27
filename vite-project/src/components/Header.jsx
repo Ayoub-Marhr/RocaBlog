@@ -8,8 +8,8 @@ export default function Header() {
   const { pathname } = useLocation();
 
   return (
-    <Navbar className="border-b-2 bg-gradient-to-r from-blue-700 to-purple-700 text-gray-200 dark:text-gray-200 shadow-md">
-      <Link 
+<Navbar className="border-b-2 bg-gradient-to-r from-blue-700 to-purple-700 text-gray-200 dark:text-gray-200 shadow-md rounded-b-xl">
+<Link 
         to='/' 
         className='header-logo flex items-center space-x-3 p-2 rounded-full bg-blue-100 dark:bg-blue-800 hover:bg-blue-200 dark:hover:bg-blue-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 shadow-lg dark:shadow-2xl transform hover:scale-105 active:scale-95 animate-fade-in'
       >

@@ -2,14 +2,16 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Label, TextInput, Button, Alert, Spinner } from "flowbite-react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+  const { loading, error: errorMessage } = useSelector(state => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -23,42 +25,41 @@ export default function SignIn() {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
-      return setErrorMessage('Please fill out all fields!');
+        return dispatch(signInFailure('Please fill out all fields!'));
     }
 
-    setLoading(true);
-    setErrorMessage('');
-    setSuccessMessage('');
+    dispatch(signInStart());
 
     try {
-      const res = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+        const res = await fetch('/api/auth/signin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        const errorMessage = errorData.message || `HTTP error! status: ${res.status}`;
-        return setErrorMessage(errorMessage);
-      }
+        if (!res.ok) {
+            const errorData = await res.json();
+            dispatch(signInFailure(errorData.message || 'An error occurred during sign in'));
+            return;
+        }
 
-      const data = await res.json();
+        const data = await res.json();
 
-      if (data.success === false) {
-        return setErrorMessage(data.message || 'An error occurred during sign in');
-      }
+        if (data.success === false) {
+            dispatch(signInFailure(data.message || 'An error occurred during sign in'));
+            return;
+        }
 
-      setSuccessMessage('Sign in successful!');
-      setFormData({ email: '', password: '' });
-      navigate('/home'); // Redirect to a home page or dashboard
+        dispatch(signInSuccess(data)); // Assuming `data` contains user info and token
+        setSuccessMessage('Sign in successful!');
+        setFormData({ email: '', password: '' });
+        navigate('/home'); // Redirect to a home page or dashboard
     } catch (error) {
-      console.error('Sign in failed:', error);
-      setErrorMessage('An unexpected error occurred. Please try again.');
-    } finally {
-      setLoading(false);
+        console.error('Sign in failed:', error);
+        dispatch(signInFailure('An unexpected error occurred. Please try again.'));
     }
-  };
+};
+
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-100 to-gray-300 dark:from-gray-900 dark:to-gray-700 p-6'>
@@ -77,9 +78,9 @@ export default function SignIn() {
           </Link>
           <div className='relative max-w-3xl mx-auto p-8 bg-gray-50 dark:bg-gray-900'>
             <p className='text-lg md:text-xl font-serif text-gray-800 dark:text-gray-200 text-justify leading-relaxed px-10 py-8 bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 border border-gray-300 dark:border-gray-700 rounded-2xl relative overflow-hidden'
-               style={{ 
-                 boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1), 0 15px 30px rgba(0, 0, 0, 0.1), 0 20px 40px rgba(0, 0, 0, 0.1)' 
-               }}>
+              style={{ 
+                boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1), 0 15px 30px rgba(0, 0, 0, 0.1), 0 20px 40px rgba(0, 0, 0, 0.1)' 
+              }}>
               <span className='absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gray-300 to-gray-100 rounded-full'></span>
               <span className='absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-gray-300 to-gray-100 rounded-full'></span>
               <span className='absolute inset-0 border-t border-dashed border-gray-300 dark:border-gray-700'></span>

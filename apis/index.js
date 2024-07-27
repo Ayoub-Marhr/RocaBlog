@@ -5,6 +5,10 @@ import authRoute from './routes/auth.route.js';
 
 const app = express();
 
+app.listen(3000, () => {
+    console.log('Server is listening on port 3000');
+});
+
 // Middleware to parse JSON requests
 app.use(express.json());
 
@@ -16,18 +20,12 @@ mongoose.connect('mongodb+srv://root:root@mern-blog.seiqug2.mongodb.net/?retryWr
 // Use routes
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoute);
-
-// Error handling middleware
-app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
-    const message = err.message || 'Internal Server Error';
+app.use((err,req,res,next)=>{
+    const statusCode = err.statusCode || 500
+    const message = err.message || 'Internal Server Erreur '
     res.status(statusCode).json({    
-        success: false,
+        success:  false,
         statusCode,
         message
-    });
-});
-
-app.listen(3000, () => {
-    console.log('Server is listening on port 3000');
-});
+    })
+})
