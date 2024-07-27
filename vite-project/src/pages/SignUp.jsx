@@ -1,7 +1,65 @@
-import { Link } from "react-router-dom";
-import { Label, TextInput, Button } from "flowbite-react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Label, TextInput, Button, Alert, Spinner } from "flowbite-react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export default function SignUp() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleOnChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.username || !formData.email || !formData.password || !formData.department || !formData.job) {
+      return setErrorMessage('Please fill out all fields!');
+    }
+
+    setLoading(true);
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    try {
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage = errorData.message || `HTTP error! status: ${res.status}`;
+        return setErrorMessage(errorMessage);
+      }
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        return setErrorMessage(data.message || 'An error occurred during signup');
+      }
+
+      setSuccessMessage('Signup successful!');
+      setFormData({});
+      navigate('/sign-in');
+    } catch (error) {
+      console.error('Signup failed:', error);
+      setErrorMessage('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className='min-h-screen mt-20'>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-10'>
@@ -23,41 +81,74 @@ export default function SignUp() {
           </p>
         </div>
         <div className="flex-1">
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div>
               <Label value="Your username"/>
-              <TextInput type="text" placeholder="username" id="username"/>
+              <TextInput type="text" placeholder="username" id="username" onChange={handleOnChange}/>
             </div>
             <div>
               <Label value="Your email"/>
-              <TextInput type="email" placeholder="name@company.com" id="email"/>
+              <TextInput type="email" placeholder="name@company.com" id="email" onChange={handleOnChange}/>
             </div>
-            <div>
+            <div className="relative">
               <Label value="Your password"/>
-              <TextInput type="password" placeholder="password" id="password"/>
+              <TextInput 
+                type={showPassword ? "text" : "password"} 
+                placeholder="password" 
+                id="password"
+                onChange={handleOnChange}
+              />
+              <div 
+                className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? (
+                  <AiOutlineEyeInvisible className="text-xl text-gray-600 dark:text-gray-300"/>
+                ) : (
+                  <AiOutlineEye className="text-xl text-gray-600 dark:text-gray-300"/>
+                )}
+              </div>
             </div>
             <div>
               <Label value="Your department"/>
-              <TextInput type="text" placeholder="department" id="department"/>
+              <TextInput type="text" placeholder="department" id="department" onChange={handleOnChange}/>
             </div>
             <div>
               <Label value="Your job"/>
-              <TextInput type="text" placeholder="job" id="job"/>
+              <TextInput type="text" placeholder="job" id="job" onChange={handleOnChange}/>
             </div>
             <Button
-  style={{ 
-    background: 'linear-gradient(to right, #1E3A8A, #6D28D9)', 
-    color: '#FFFFFF' 
-  }}
-  type="submit"
->
-  Sign Up
-</Button>
+              style={{ 
+                background: 'linear-gradient(to right, #1E3A8A, #6D28D9)', 
+                color: '#FFFFFF' 
+              }}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Spinner size='sm' />
+                  <span className="pl-3">Loading...</span>
+                </>
+              ) : (
+                'Sign Up'
+              )}
+            </Button>
           </form>
           <div className="gap-3 text-sm mt-5">
             <span>Have an account?</span>
             <Link to='/sign-in' className="text-blue-500"> Sign in</Link>
           </div>
+          {errorMessage && (
+            <Alert className="mt-5" color='failure'>
+              {errorMessage}
+            </Alert>
+          )}
+          {successMessage && (
+            <Alert className="mt-5" color='success'>
+              {successMessage}
+            </Alert>
+          )}
         </div>
       </div>
     </div>

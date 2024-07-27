@@ -1,6 +1,7 @@
 import User from '../models/user.model.js';
-import bcryptjs from 'bcryptjs'
-export const signup = async (req, res,next) => {
+import bcryptjs from 'bcryptjs';
+
+export const signup = async (req, res, next) => {
     try {
         const { username, email, password, department, job } = req.body;
 
@@ -15,19 +16,24 @@ export const signup = async (req, res,next) => {
         if (existingUserByEmail) {
             return res.status(400).json({ message: 'Email is already in use' });
         }
-        const hashedPassword = bcryptjs.hashSync(password,10)
+
+        // Hash the password
+        const hashedPassword = bcryptjs.hashSync(password, 10);
+
         // Create a new user
         const newUser = new User({
             username,
             email,
-            password:hashedPassword,
+            password: hashedPassword,
             department,
             job
         });
 
+        // Save the new user
         const savedUser = await newUser.save();
-        res.status(201).json(savedUser);
-        next(error)
+
+        // Send success response
+        return res.status(201).json(savedUser);
     } catch (err) {
         if (err.code === 11000) {
             // Duplicate key error
@@ -38,6 +44,8 @@ export const signup = async (req, res,next) => {
                 return res.status(400).json({ message: 'Email is already in use' });
             }
         }
-        res.status(500).json({ message: err.message });
+
+        // General error
+        return res.status(500).json({ message: err.message });
     }
 };
