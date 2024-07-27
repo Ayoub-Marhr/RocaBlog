@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Label, TextInput, Button, Alert, Spinner } from "flowbite-react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import OAuth from "../components/OAuth";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -153,7 +154,7 @@ export default function SignUp() {
                 className="border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
               />
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3" >
               <Label value="Your job" className="font-semibold text-gray-700 dark:text-gray-300"/>
               <TextInput 
                 type="text" 
@@ -164,27 +165,29 @@ export default function SignUp() {
               />
             </div>
             <div className="flex flex-col items-center md:items-start gap-4">
-  <Button
-    style={{ 
-      background: 'linear-gradient(to right, #1E3A8A, #6D28D9)', 
-      color: '#FFFFFF' 
-    }}
-    type="submit"
-    disabled={loading}
-    className="w-full md:w-auto py-2 text-lg font-semibold rounded-lg shadow-md hover:shadow-xl transition-shadow transform hover:scale-105 active:scale-95"
-  >
-    {loading ? (
-      <>
-        <Spinner size='sm' />
-        <span className="pl-3">Loading...</span>
-      </>
-    ) : (
-      'Sign Up'
-    )}
-  </Button>
+            <Button
+  style={{
+    background: 'linear-gradient(to right, #1E3A8A, #6D28D9)',
+    color: '#FFFFFF',
+    padding: '0.25rem 11rem', // Reduce padding to make the button smaller in height
+  }}
+  type="submit"
+  disabled={loading}
+  className="w-full md:w-auto text-base font-semibold rounded-lg shadow-md hover:shadow-xl transition-shadow transform hover:scale-105 active:scale-95"
+>
+  {loading ? (
+    <>
+      <Spinner size='sm' />
+      <span className="pl-3">Loading...</span>
+    </>
+  ) : (
+    'SignUp'
+  )}
+</Button>
+  <OAuth/>
   <div className="text-sm text-gray-600 dark:text-gray-400 flex items-center space-x-2 justify-end w-full md:w-auto">
     <span>Have an account?</span>
-    <Link to='/sign-in' className="text-blue-500 hover:underline"> Sign in</Link>
+    <Link to='/sign-in' className="text-blue-500 hover:underline"> Sign In</Link>
   </div>
 </div>
 

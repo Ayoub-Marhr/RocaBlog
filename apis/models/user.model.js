@@ -17,11 +17,15 @@ const userSchema = new mongoose.Schema({
     },
     department: {
         type: String,
-        required: true
+        required: false
     },
     job: {
         type: String,
-        required: true
+        required: false
+    },
+    profilePicture:{
+        type : String,
+        default : "https://media.istockphoto.com/id/1316420668/vector/user-icon-human-person-symbol-social-profile-icon-avatar-login-sign-web-user-symbol.jpg?s=612x612&w=0&k=20&c=AhqW2ssX8EeI2IYFm6-ASQ7rfeBWfrFFV4E87SaFhJE="
     }
 }, { timestamps: true });
 

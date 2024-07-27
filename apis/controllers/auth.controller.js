@@ -86,3 +86,41 @@ export const signin = async (req, res, next) => {
         next(error);
     }
 }
+
+export const google = async (req, res, next) => {
+    try {
+        const { email, name, googlePhotoUrl } = req.body;
+
+        // Check if the user already exists
+        let user = await User.findOne({ email });
+
+        if (user) {
+            // User exists, generate a token and respond
+            const token = jwt.sign({ id: user._id }, JWT_Secret);
+            const { password, ...rest } = user._doc;
+            return res.status(200).cookie('access_token', token, {
+                httpOnly: true,
+            }).json(rest);
+        } else {
+            // User does not exist, create a new user
+            const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+            const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+            const newUser = new User({
+                username: name.toLowerCase().split(' ').join(' ') + Math.random().toString(9).slice(-4),
+                email,
+                password: hashedPassword,
+                profilePicture: googlePhotoUrl,
+            });
+
+            await newUser.save();
+            const token = jwt.sign({ id: newUser._id }, JWT_Secret);
+            const { password, ...rest } = newUser._doc;
+            return res.status(200).cookie('access_token', token, {
+                httpOnly: true,
+            }).json(rest);
+        }
+    } catch (error) {
+        console.error('Error during Google authentication:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
