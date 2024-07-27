@@ -1,0 +1,73 @@
+/* Fade-In Animation */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out;
+  }
+  
+  /* Hover effects for nav links */
+  .nav-link {
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    color: #1D4ED8; /* Default text color */
+    transition: color 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    font-size: 1rem; /* Default font size */
+    font-weight: 500;
+  }
+  
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #1D4ED8; /* Underline color */
+    transition: width 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    transform: scale(1.05);
+    color: #1D4ED8; /* Hover text color */
+  }
+  
+  .nav-link:hover::after {
+    width: 100%;
+  }
+  
+  .nav-link:focus {
+    outline: 2px solid #1D4ED8; /* Focus outline for accessibility */
+    outline-offset: 2px;
+  }
+  
+  /* Navbar Toggle Animation */
+  .navbar-toggle {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .navbar-toggle:hover {
+    transform: rotate(180deg);
+  }
+  
+  /* Adjustments for responsive design */
+  @media (max-width: 640px) {
+    .nav-link {
+      font-size: 0.875rem; /* Smaller font size for mobile */
+      padding: 0.5rem; /* Adjust padding for smaller screens */
+    }
+  
+    .header-logo span {
+      font-size: 0.875rem; /* Smaller font size for mobile */
+    }
+  }
+  

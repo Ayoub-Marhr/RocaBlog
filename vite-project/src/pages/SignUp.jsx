@@ -61,42 +61,76 @@ export default function SignUp() {
   };
 
   return (
-    <div className='min-h-screen mt-20'>
-      <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-10'>
+    <div className='min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-100 to-gray-300 dark:from-gray-900 dark:to-gray-700 p-6'>
+      <div className='flex flex-col md:flex-row max-w-5xl w-full bg-white dark:bg-gray-800 shadow-2xl rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden'>
         {/* Navigation Link */}
-        <div className="flex-1">
-          <Link 
-            to='/' 
-            className='flex items-center space-x-4 p-3 rounded-full bg-blue-100 dark:bg-blue-800 hover:bg-blue-200 dark:hover:bg-blue-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 shadow-lg dark:shadow-2xl transform hover:scale-105 active:scale-95 text-4xl'
-          >
-            <span className='px-4 py-2 md:px-6 md:py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full text-lg md:text-xl font-extrabold transition-transform duration-300'>
-              Roca
-            </span>
-            <span className='text-blue-500 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-400 transition-colors duration-300 font-semibold text-sm md:text-base'>
-              Blog 
-            </span>
-          </Link>
-          <p className='text-sm mt-5 px-4'>
-            Explicabo labore voluptatum! Cupiditate temporibus soluta ab magnam.
-          </p>
+        <div className="w-full md:w-1/2 p-10 flex flex-col items-center justify-center bg-blue-50 dark:bg-gray-800 rounded-l-xl space-y-6">
+        <Link 
+  to='/' 
+  className='header-logo flex flex-col items-center space-y-4 p-8 rounded-full bg-blue-100 dark:bg-blue-800 hover:bg-blue-200 dark:hover:bg-blue-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 shadow-2xl dark:shadow-2xl transform hover:scale-110 active:scale-95 animate-fade-in'
+>
+  <span className='px-8 py-4 md:px-10 md:py-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full text-2xl md:text-3xl font-extrabold transition-transform duration-300 animate-fade-in border-2 border-transparent hover:border-blue-400'>
+    Roca
+  </span>
+  <span className='text-black dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300 font-semibold text-xl md:text-2xl animate-fade-in'>
+    Blog
+  </span>
+</Link>
+<div className='relative max-w-3xl mx-auto p-8 bg-gray-50 dark:bg-gray-900'>
+  <p className='text-lg md:text-xl font-serif text-gray-800 dark:text-gray-200 text-justify leading-relaxed px-10 py-8 bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 border border-gray-300 dark:border-gray-700 rounded-2xl relative overflow-hidden'
+     style={{ 
+       boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1), 0 15px 30px rgba(0, 0, 0, 0.1), 0 20px 40px rgba(0, 0, 0, 0.1)' 
+     }}>
+    <span className='absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gray-300 to-gray-100 rounded-full'></span>
+    <span className='absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-gray-300 to-gray-100 rounded-full'></span>
+    <span className='absolute inset-0 border-t border-dashed border-gray-300 dark:border-gray-700'></span>
+    
+    <span className='block text-gray-600 dark:text-gray-400 text-sm italic mb-4 absolute left-0 top-6 transform -translate-x-6'>
+      “
+    </span>
+    <span className='block text-gray-600 dark:text-gray-400 text-sm italic mb-4 absolute right-0 top-6 transform translate-x-6'>
+      ”
+    </span>
+    
+    <span className='relative z-10'>
+      Explicabo labore voluptatum! Cupiditate temporibus soluta ab magnam.
+    </span>
+  </p>
+</div>
+
+
         </div>
-        <div className="flex-1">
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <div>
-              <Label value="Your username"/>
-              <TextInput type="text" placeholder="username" id="username" onChange={handleOnChange}/>
+        {/* Sign Up Form */}
+        <div className="w-full md:w-1/2 p-10 flex flex-col justify-center bg-white dark:bg-gray-900 rounded-r-xl">
+          <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-3">
+              <Label value="Your username" className="font-semibold text-gray-700 dark:text-gray-300"/>
+              <TextInput 
+                type="text" 
+                placeholder="Username" 
+                id="username" 
+                onChange={handleOnChange} 
+                className="border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+              />
             </div>
-            <div>
-              <Label value="Your email"/>
-              <TextInput type="email" placeholder="name@company.com" id="email" onChange={handleOnChange}/>
+            <div className="flex flex-col gap-3">
+              <Label value="Your email" className="font-semibold text-gray-700 dark:text-gray-300"/>
+              <TextInput 
+                type="email" 
+                placeholder="name@company.com" 
+                id="email" 
+                onChange={handleOnChange} 
+                className="border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+              />
             </div>
-            <div className="relative">
-              <Label value="Your password"/>
+            <div className="relative flex flex-col gap-3">
+              <Label value="Your password" className="font-semibold text-gray-700 dark:text-gray-300"/>
               <TextInput 
                 type={showPassword ? "text" : "password"} 
-                placeholder="password" 
+                placeholder="Password" 
                 id="password"
                 onChange={handleOnChange}
+                className="border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
               />
               <div 
                 className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
@@ -109,36 +143,52 @@ export default function SignUp() {
                 )}
               </div>
             </div>
-            <div>
-              <Label value="Your department"/>
-              <TextInput type="text" placeholder="department" id="department" onChange={handleOnChange}/>
+            <div className="flex flex-col gap-3">
+              <Label value="Your department" className="font-semibold text-gray-700 dark:text-gray-300"/>
+              <TextInput 
+                type="text" 
+                placeholder="Department" 
+                id="department" 
+                onChange={handleOnChange} 
+                className="border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+              />
             </div>
-            <div>
-              <Label value="Your job"/>
-              <TextInput type="text" placeholder="job" id="job" onChange={handleOnChange}/>
+            <div className="flex flex-col gap-3">
+              <Label value="Your job" className="font-semibold text-gray-700 dark:text-gray-300"/>
+              <TextInput 
+                type="text" 
+                placeholder="Job" 
+                id="job" 
+                onChange={handleOnChange} 
+                className="border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
+              />
             </div>
-            <Button
-              style={{ 
-                background: 'linear-gradient(to right, #1E3A8A, #6D28D9)', 
-                color: '#FFFFFF' 
-              }}
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <Spinner size='sm' />
-                  <span className="pl-3">Loading...</span>
-                </>
-              ) : (
-                'Sign Up'
-              )}
-            </Button>
+            <div className="flex flex-col items-center md:items-start gap-4">
+  <Button
+    style={{ 
+      background: 'linear-gradient(to right, #1E3A8A, #6D28D9)', 
+      color: '#FFFFFF' 
+    }}
+    type="submit"
+    disabled={loading}
+    className="w-full md:w-auto py-2 text-lg font-semibold rounded-lg shadow-md hover:shadow-xl transition-shadow transform hover:scale-105 active:scale-95"
+  >
+    {loading ? (
+      <>
+        <Spinner size='sm' />
+        <span className="pl-3">Loading...</span>
+      </>
+    ) : (
+      'Sign Up'
+    )}
+  </Button>
+  <div className="text-sm text-gray-600 dark:text-gray-400 flex items-center space-x-2 justify-end w-full md:w-auto">
+    <span>Have an account?</span>
+    <Link to='/sign-in' className="text-blue-500 hover:underline"> Sign in</Link>
+  </div>
+</div>
+
           </form>
-          <div className="gap-3 text-sm mt-5">
-            <span>Have an account?</span>
-            <Link to='/sign-in' className="text-blue-500"> Sign in</Link>
-          </div>
           {errorMessage && (
             <Alert className="mt-5" color='failure'>
               {errorMessage}
