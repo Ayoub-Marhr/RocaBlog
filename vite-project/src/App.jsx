@@ -7,22 +7,24 @@ import Projects from './pages/Projects';
 import Ab from './pages/Ab';
 import Header from './components/Header';
 import FooterComp from './components/FooterComp';
+import PrivateRoute from './components/PrivateRoute';
 
 export default function App() {
   return (
     <BrowserRouter>
-    <Header/>
+      <Header />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/about' element={< Ab/>} />
+        <Route path='/about' element={<Ab />} />
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/projects' element={<Projects />} />
+        <Route element={<PrivateRoute />}>
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/projects' element={<Projects />} />
+        </Route>
+        
       </Routes>
-      <FooterComp/>
+      <FooterComp />
     </BrowserRouter>
   );
 }
-
-
