@@ -1,11 +1,12 @@
-import { Navbar, TextInput, Button } from "flowbite-react";
+import { Navbar, TextInput, Button, Dropdown, Avatar } from "flowbite-react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon } from 'react-icons/fa';
-import './Header.css'; // Import CSS file for animations
-
+import './Header.css'; 
+import { useSelector } from "react-redux";
 export default function Header() {
   const { pathname } = useLocation();
+  const {currentUser} = useSelector(state=>state.user)
 
   return (
 <Navbar className="border-b-2 bg-gradient-to-r from-blue-700 to-purple-700 text-gray-200 dark:text-gray-200 shadow-md rounded-b-xl">
@@ -52,11 +53,37 @@ export default function Header() {
         <Button className="w-10 h-10 mx-2 animate-fade-in bg-gradient-to-r from-blue-600 to-purple-600 text-white" color='gray' pill>
           <FaMoon />
         </Button>
-        <Link to='/sign-in'>
-          <Button gradientDuoTone='purpleToBlue' outline className='animate-fade-in'>
-            Sign In
-          </Button>
-        </Link>
+        {currentUser?(
+          <Dropdown 
+          arrowIcon={false}
+          inline
+          label={
+            <Avatar
+            alt="user"
+            img={currentUser.profilePicture}
+            rounded/>
+          }>
+            <Dropdown.Header>
+              <span className="block text-sm">@{currentUser.username}</span>
+              <span className="block text-sm font-medium truncate">{currentUser.email}</span>
+            </Dropdown.Header>
+            <Dropdown.Header>
+              <Link to={'/dashboard?tab=profile'}>
+              <Dropdown.Item>Profile</Dropdown.Item>
+              </Link>
+              <Dropdown.Divider/>
+              <Dropdown.Item>Sign Out</Dropdown.Item>
+            </Dropdown.Header>
+
+          </Dropdown>
+        ):(
+           <Link to='/sign-in'>
+           <Button gradientDuoTone='purpleToBlue' outline className='animate-fade-in'>
+             Sign In
+           </Button>
+         </Link>
+        )}
+       
       </div>
     </Navbar>
   );
