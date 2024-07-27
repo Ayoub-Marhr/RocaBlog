@@ -53,7 +53,7 @@ export default function SignIn() {
         dispatch(signInSuccess(data)); // Assuming `data` contains user info and token
         setSuccessMessage('Sign in successful!');
         setFormData({ email: '', password: '' });
-        navigate('/home'); // Redirect to a home page or dashboard
+        navigate('/'); // Redirect to a home page or dashboard
     } catch (error) {
         console.error('Sign in failed:', error);
         dispatch(signInFailure('An unexpected error occurred. Please try again.'));
