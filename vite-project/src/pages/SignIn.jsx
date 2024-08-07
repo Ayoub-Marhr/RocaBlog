@@ -68,6 +68,7 @@
           {/* Navigation Link */}
           <div className="w-full md:w-1/2 p-10 flex flex-col items-center justify-center bg-blue-50 dark:bg-gray-800 rounded-l-xl space-y-6">
             <Link 
+            to='/' 
               className='header-logo flex flex-col items-center space-y-4 p-8 rounded-full bg-blue-100 dark:bg-blue-800 hover:bg-blue-200 dark:hover:bg-blue-700 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-offset-2 shadow-2xl dark:shadow-2xl transform hover:scale-110 active:scale-95 animate-fade-in'
             >
               <span className='px-8 py-4 md:px-10 md:py-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-full text-2xl md:text-3xl font-extrabold transition-transform duration-300 animate-fade-in border-2 border-transparent hover:border-blue-400'>
