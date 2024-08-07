@@ -1,16 +1,16 @@
+// app.js (or server.js)
+
 import express from 'express';
 import mongoose from 'mongoose';
 import userRoutes from './routes/user.route.js';
 import authRoute from './routes/auth.route.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
-app.listen(3000, () => {
-    console.log('Server is listening on port 3000');
-});
-
 // Middleware to parse JSON requests
 app.use(express.json());
+app.use(cookieParser());
 
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://root:root@mern-blog.seiqug2.mongodb.net/?retryWrites=true&w=majority&appName=mern-blog')
@@ -20,12 +20,14 @@ mongoose.connect('mongodb+srv://root:root@mern-blog.seiqug2.mongodb.net/?retryWr
 // Use routes
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoute);
-app.use((err,req,res,next)=>{
-    const statusCode = err.statusCode || 500
-    const message = err.message || 'Internal Server Erreur '
-    res.status(statusCode).json({    
-        success:  false,
-        statusCode,
-        message
-    })
-})
+
+// Global error handler
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || 'Internal Server Error';
+    res.status(statusCode).json({ success: false, statusCode, message });
+});
+
+app.listen(3000, () => {
+    console.log('Server is listening on port 3000');
+});
