@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import userRoutes from './routes/user.route.js';
 import authRoute from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
+import postRoutes from './routes/post.route.js'
 
 const app = express();
 
@@ -20,6 +21,7 @@ mongoose.connect('mongodb+srv://root:root@mern-blog.seiqug2.mongodb.net/?retryWr
 // Use routes
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoute);
+app.use('/api/post',postRoutes)
 
 // Global error handler
 app.use((err, req, res, next) => {
