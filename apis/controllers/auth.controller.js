@@ -73,7 +73,7 @@ export const signin = async (req, res, next) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ id: validUser._id }, JWT_Secret, { expiresIn: '1h' });
+        const token = jwt.sign({ id: validUser._id,isAdmin:validUser.isAdmin }, JWT_Secret, { expiresIn: '1h' });
 
         // Send response with token in a cookie
         res.status(200).cookie('access_token', token, {
@@ -95,7 +95,7 @@ export const google = async (req, res, next) => {
 
         if (user) {
             // User exists, generate a token and respond
-            const token = jwt.sign({ id: user._id }, JWT_Secret);
+            const token = jwt.sign({ id: user._id,isAdmin:user.isAdmin }, JWT_Secret);
             const { password, ...rest } = user._doc;
             return res.status(200).cookie('access_token', token, {
                 httpOnly: true,
@@ -112,7 +112,7 @@ export const google = async (req, res, next) => {
             });
 
             await newUser.save();
-            const token = jwt.sign({ id: newUser._id }, JWT_Secret);
+            const token = jwt.sign({ id: newUser._id,isAdmin:newUser.isAdmin }, JWT_Secret);
             const { password, ...rest } = newUser._doc;
             return res.status(200).cookie('access_token', token, {
                 httpOnly: true,
