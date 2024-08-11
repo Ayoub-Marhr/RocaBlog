@@ -12,7 +12,7 @@ export const create = async (req, res, next) => {
     }
 
     // Use req.body.content instead of req.body.body
-    const slug = req.body.content.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g, '-');
+    const slug = req.body.title.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g,'');
 
     const newPost = new Post({
         ...req.body,

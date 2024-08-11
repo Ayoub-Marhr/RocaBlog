@@ -89,29 +89,32 @@ export default function UpdatePost() {
         e.preventDefault();
         try {
             const slug = generateSlug(formData.title);
+            console.log('Generated Slug:', slug); // Log the generated slug
             const postData = { ...formData, slug };
             
-            const res = await fetch(`/api/post/updatePost/${formData._id}/${currentUser._id}`, {
+            const res = await fetch(`/api/post/updatePost/${postId}/${currentUser._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(postData)
             });
+    
             const data = await res.json();
+    
             if (!res.ok) {
+                console.error('Update failed:', data.message);
                 setPublishError(data.message);
                 return;
             }
-            if(res.ok){
-                setPublishError(null);
-                navigate(`/post/${slug}`)
-            }
-        } catch (error) {
+    
+            navigate(`/post/${formData.slug}`);
+                } catch (error) {
+            console.error('Error in handleSubmit:', error);
             setPublishError('Something went wrong');
         }
     };
-
+    
     return (
         <div className="p-6 max-w-4xl mx-auto min-h-screen bg-gray-100 dark:bg-gray-900">
             <h1 className="text-center text-4xl my-8 font-extrabold text-gray-900 dark:text-gray-100">Update Post</h1>
@@ -198,7 +201,7 @@ export default function UpdatePost() {
                 </Button>
                 {
                     publishError && <Alert className="mt-5" color='failure'>{publishError}</Alert>
-                }
+                }   
             </form>
         </div>
     );

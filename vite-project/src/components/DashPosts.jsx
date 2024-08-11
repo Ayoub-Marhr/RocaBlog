@@ -90,7 +90,7 @@ export default function DashPosts() {
               <Table.Row key={post.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                 <Table.Cell>{new Date(post.updatedAt).toLocaleDateString()}</Table.Cell>
                 <Table.Cell>
-                  <Link to={`/post/${formatTitleForURL(post.title)}`}>
+                  <Link to={`/post/${post.slug}`}>
                     <img 
                       src={post.image} 
                       alt={post.title} 
