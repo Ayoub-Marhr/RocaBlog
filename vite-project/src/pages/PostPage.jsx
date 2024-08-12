@@ -1,19 +1,49 @@
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { Spinner, Button } from "flowbite-react"
-import { Link } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Spinner, Button } from "flowbite-react";
+import { Link } from "react-router-dom";
+import CallToActionProduction from "../components/callToAction/CallToActionProduction";
+import CallToActionRH from "../components/callToAction/CallToActionRH";
+import CallToActionAssurance from "../components/callToAction/CallToActionAssurance";
+import CallToActionMaintenance from "../components/callToAction/CallToActionMaintenance";
+import CallToActionLogistique from "../components/callToAction/CallToActionLogistique";
+import CallToActionFinance from "../components/callToAction/CallToActionFinance";
+import CallToActionVentes from "../components/callToAction/CallToActionVentes";
+import CallToActionSécurité from "../components/callToAction/CallToActionSécurité";
+import CallToActionAdministration from "../components/callToAction/callToActionAdministration";
+import CallToActionIt from "../components/callToAction/callToActionIt";
+
+const callToActionComponents = {
+    production: CallToActionProduction,
+    rh: CallToActionRH,
+    assurance: CallToActionAssurance,
+    maintenance: CallToActionMaintenance,
+    logistique: CallToActionLogistique,
+    finance: CallToActionFinance,
+    ventes: CallToActionVentes,
+    sécurité: CallToActionSécurité,
+    administration: CallToActionAdministration,
+    it: CallToActionIt
+};
+
+const getRandomCallToAction = () => {
+    const keys = Object.keys(callToActionComponents);
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    return callToActionComponents[randomKey];
+};
+
 export default function PostPage() {
-    const {postSlug} = useParams()
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
-    const [post, setPost] = useState(null)
+    const { postSlug } = useParams();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [post, setPost] = useState(null);
     
     useEffect(() => {
         const fetchPost = async () => {
             try {
                 setLoading(true);
                 const encodedSlug = encodeURIComponent(postSlug);
-                console.log('Fetching post with slug:', encodedSlug); // Log the slug being used for fetch
+                console.log('Fetching post with slug:', encodedSlug);
                 const res = await fetch(`/api/post/getPosts?slug=${encodedSlug}`);
                 const data = await res.json();
     
@@ -53,6 +83,8 @@ export default function PostPage() {
         return <div>{error}</div>;
     }
 
+    const CallToAction = post?.category === "uncategorized" ? getRandomCallToAction() : callToActionComponents[post?.category];
+
     return (
         <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen dark:text-white">
             <h1 className="text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl text-gray-800 dark:text-white">
@@ -66,7 +98,11 @@ export default function PostPage() {
                 <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
                 <span className="italic">{post && Math.round(post.content.length / 1000)} mins read</span>
             </div>
-            <div dangerouslySetInnerHTML={{__html: post?.content}} className="p-3 max-w-2xl mx-auto w-full post-content"></div>
+            <div dangerouslySetInnerHTML={{ __html: post?.content }} className="p-3 max-w-2xl mx-auto w-full post-content"></div>
+            <div className="max-w-4xl mx-auto w-full">
+            <div className="my-8 border-t border-gray-300 dark:border-gray-700"></div>
+                {CallToAction && <CallToAction />}
+            </div>
         </main>
-    )
+    );
 }
