@@ -12,6 +12,7 @@ import CallToActionVentes from "../components/callToAction/CallToActionVentes";
 import CallToActionSécurité from "../components/callToAction/CallToActionSécurité";
 import CallToActionAdministration from "../components/callToAction/callToActionAdministration";
 import CallToActionIt from "../components/callToAction/callToActionIt";
+import CommentSection from "../components/CommentSection";
 
 const callToActionComponents = {
     production: CallToActionProduction,
@@ -103,6 +104,7 @@ export default function PostPage() {
             <div className="my-8 border-t border-gray-300 dark:border-gray-700"></div>
                 {CallToAction && <CallToAction />}
             </div>
+            <CommentSection postId={post._id}/>
         </main>
     );
 }
