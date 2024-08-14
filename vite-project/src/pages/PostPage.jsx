@@ -94,12 +94,14 @@ export default function PostPage() {
             <Link to={`/search?category=${post?.category}`} className='self-center mt-5'>
                 <Button color="gray" pill size="xs">{post?.category}</Button>
             </Link>
-            <img src={post?.image} alt={post?.title} className="mt-10 p-3 max-h-[600px] w-full object-cover" />
+            <div className="fade-transition">
+                <img src={post?.image} alt={post?.title} className="mt-10 p-3 max-h-[600px] w-full object-cover" />
+            </div>
             <div className="flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs">
                 <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
                 <span className="italic">{post && Math.round(post.content.length / 1000)} mins read</span>
             </div>
-            <div dangerouslySetInnerHTML={{ __html: post?.content }} className="p-3 max-w-2xl mx-auto w-full post-content"></div>
+            <div dangerouslySetInnerHTML={{ __html: post?.content }} className="p-3 max-w-2xl mx-auto w-full post-content text-container"></div>
             <div className="max-w-4xl mx-auto w-full">
             <div className="my-8 border-t border-gray-300 dark:border-gray-700"></div>
                 {CallToAction && <CallToAction />}

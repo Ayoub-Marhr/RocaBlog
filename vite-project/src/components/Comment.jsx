@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import moment from 'moment';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useSelector } from "react-redux";
+import { Textarea, Button } from "flowbite-react"; // Ensure Button is imported
 
-export default function Comment({ comment, onLike }) {
+export default function Comment({ comment, onLike, onEdit }) {
     const [user, setUser] = useState({});
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedContent, setEditedContent] = useState(comment.content);
     const { currentUser } = useSelector((state) => state.user);
 
     useEffect(() => {
@@ -23,6 +26,31 @@ export default function Comment({ comment, onLike }) {
     }, [comment]);
 
     const isLiked = currentUser && comment.likes.includes(currentUser._id);
+
+    const handleSave = async () => {
+        try {
+          const res = await fetch(`/api/comment/editComment/${comment._id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              content: editedContent,
+            }),
+          });
+          if (res.ok) {
+            setIsEditing(false);
+            onEdit(comment, editedContent);
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+
+    const handleEdit = () => {
+        setIsEditing(true);
+        setEditedContent(comment.content)
+    };
 
     return (
         <div className="flex p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 mb-4">
@@ -49,26 +77,64 @@ export default function Comment({ comment, onLike }) {
                         </span>
                     </div>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 text-base">
-                    {comment.content}
-                </p>
-                <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <button
-                        className={`flex items-center space-x-2 transition-all duration-200 transform hover:scale-105 ${
-                            isLiked 
-                                ? 'text-red-500 dark:text-red-400' 
-                                : 'text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400'
-                        }`}
-                        type="button"
-                        onClick={() => onLike(comment._id)}
-                    >
-                        {isLiked ? <FaHeart className="text-lg" /> : <FaRegHeart className="text-lg" />}
-                        <span className="font-medium">{isLiked ? 'Liked' : 'Like'}</span>
-                    </button>
-                    <span className="text-gray-400 dark:text-gray-500 text-sm">
-                        {moment(comment.createdAt).format('MMMM D, YYYY [at] h:mm A')}
-                    </span>
-                </div>
+
+                {isEditing ? (
+                    <>
+                        <Textarea
+                            className='mb-2'
+                            value={editedContent}
+                            onChange={(e) => setEditedContent(e.target.value)}
+                        />
+                        <div className='flex justify-end gap-2 text-xs'>
+                            <Button
+                                type='button'
+                                size='sm'
+                                gradientDuoTone='purpleToBlue'
+                                onClick={handleSave}
+                                
+                            >
+                                Save
+                            </Button>
+                            <Button
+                                type='button'
+                                size='sm'
+                                gradientDuoTone='purpleToBlue'
+                                outline
+                                onClick={() => setIsEditing(false)}
+                            >
+                                Cancel
+                            </Button>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 text-base">
+                            {comment.content}
+                        </p>
+                        <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
+                            <button
+                                className={`flex items-center space-x-2 transition-all duration-200 transform hover:scale-105 ${
+                                    isLiked 
+                                        ? 'text-red-500 dark:text-red-400' 
+                                        : 'text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400'
+                                }`}
+                                type="button"
+                                onClick={() => onLike(comment._id)}
+                            >
+                                {isLiked ? <FaHeart className="text-lg" /> : <FaRegHeart className="text-lg" />}
+                                <span className="font-medium">{isLiked ? 'Liked' : 'Like'}</span>
+                            </button>
+                            {currentUser && (currentUser.id === comment.userId || currentUser.isAdmin) && (
+                                <button type="button" className="text-gray-400 hover:text-blue-500" onClick={handleEdit}>
+                                    Edit
+                                </button>
+                            )}
+                            <span className="text-gray-400 dark:text-gray-500 text-sm">
+                                {moment(comment.createdAt).format('MMMM D, YYYY [at] h:mm A')}
+                            </span>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
