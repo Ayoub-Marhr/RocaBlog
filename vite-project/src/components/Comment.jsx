@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import moment from 'moment';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaHeart, FaRegHeart, FaEllipsisV } from 'react-icons/fa';
 import { useSelector } from "react-redux";
-import { Textarea, Button } from "flowbite-react"; // Ensure Button is imported
+import { Textarea, Button, Dropdown } from "flowbite-react";
 
-export default function Comment({ comment, onLike, onEdit }) {
+export default function Comment({ comment, onLike, onEdit, onDelete }) {
     const [user, setUser] = useState({});
     const [isEditing, setIsEditing] = useState(false);
     const [editedContent, setEditedContent] = useState(comment.content);
@@ -29,23 +29,23 @@ export default function Comment({ comment, onLike, onEdit }) {
 
     const handleSave = async () => {
         try {
-          const res = await fetch(`/api/comment/editComment/${comment._id}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              content: editedContent,
-            }),
-          });
-          if (res.ok) {
-            setIsEditing(false);
-            onEdit(comment, editedContent);
-          }
+            const res = await fetch(`/api/comment/editComment/${comment._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: editedContent,
+                }),
+            });
+            if (res.ok) {
+                setIsEditing(false);
+                onEdit(comment, editedContent);
+            }
         } catch (error) {
-          console.log(error.message);
+            console.log(error.message);
         }
-      };
+    };
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -71,10 +71,26 @@ export default function Comment({ comment, onLike, onEdit }) {
                             {moment(comment.createdAt).fromNow()}
                         </span>
                     </div>
-                    <div className="bg-blue-100 dark:bg-blue-900 px-3 py-1 rounded-full">
-                        <span className="text-blue-600 dark:text-blue-300 text-xs font-semibold">
-                            {comment.numberOfLikes} {comment.numberOfLikes === 1 ? "like" : "likes"}
-                        </span>
+                    <div className="flex items-center space-x-2">
+                        <div className="bg-blue-100 dark:bg-blue-900 px-3 py-1 rounded-full">
+                            <span className="text-blue-600 dark:text-blue-300 text-xs font-semibold">
+                                {comment.numberOfLikes} {comment.numberOfLikes === 1 ? "like" : "likes"}
+                            </span>
+                        </div>
+                        {currentUser && (currentUser._id === comment.userId || currentUser.isAdmin) && (
+                            <Dropdown
+                                arrowIcon={false}
+                                inline
+                                label={<FaEllipsisV className="text-gray-500 hover:text-gray-700" />}
+                            >
+                                <Dropdown.Item onClick={handleEdit}>
+                                    Edit
+                                </Dropdown.Item>
+                                <Dropdown.Item onClick={() => onDelete(comment._id)}>
+                                    Delete
+                                </Dropdown.Item>
+                            </Dropdown>
+                        )}
                     </div>
                 </div>
 
@@ -91,7 +107,6 @@ export default function Comment({ comment, onLike, onEdit }) {
                                 size='sm'
                                 gradientDuoTone='purpleToBlue'
                                 onClick={handleSave}
-                                
                             >
                                 Save
                             </Button>
@@ -124,11 +139,6 @@ export default function Comment({ comment, onLike, onEdit }) {
                                 {isLiked ? <FaHeart className="text-lg" /> : <FaRegHeart className="text-lg" />}
                                 <span className="font-medium">{isLiked ? 'Liked' : 'Like'}</span>
                             </button>
-                            {currentUser && (currentUser.id === comment.userId || currentUser.isAdmin) && (
-                                <button type="button" className="text-gray-400 hover:text-blue-500" onClick={handleEdit}>
-                                    Edit
-                                </button>
-                            )}
                             <span className="text-gray-400 dark:text-gray-500 text-sm">
                                 {moment(comment.createdAt).format('MMMM D, YYYY [at] h:mm A')}
                             </span>
