@@ -71,12 +71,12 @@ export default function DashUsers() {
       {currentUser?.isAdmin && users.length > 0 ? (
         <Table hoverable className="w-full shadow-md">
           <Table.Head className="bg-gray-100 dark:bg-gray-700 text-center">
-            <Table.HeadCell>Date Created</Table.HeadCell>
-            <Table.HeadCell>User Image</Table.HeadCell>
-            <Table.HeadCell>Username</Table.HeadCell>
-            <Table.HeadCell>Email</Table.HeadCell>
-            <Table.HeadCell>Admin</Table.HeadCell>
-            <Table.HeadCell>Delete</Table.HeadCell>
+            <Table.HeadCell  className="bg-gray-300">Date Created</Table.HeadCell>
+            <Table.HeadCell  className="bg-gray-300">User Image</Table.HeadCell>
+            <Table.HeadCell  className="bg-gray-300">Username</Table.HeadCell>
+            <Table.HeadCell  className="bg-gray-300">Email</Table.HeadCell>
+            <Table.HeadCell  className="bg-gray-300">Admin</Table.HeadCell>
+            <Table.HeadCell  className="bg-gray-300">Delete</Table.HeadCell>
           </Table.Head>
           <Table.Body className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {users.map((user) => (
