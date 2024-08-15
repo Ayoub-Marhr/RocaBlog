@@ -68,7 +68,7 @@ export default function DashSideBar() {
 
                 <Link to='/dashboard?tab=posts'>
                   <div className={`flex items-center p-3 rounded-lg transition-transform duration-300 ease-in-out transform ${tab === 'posts' ? 'bg-blue-800 text-white' : 'text-gray-400 hover:bg-blue-700 dark:text-white'} hover:scale-110`}>
-                    <HiDocumentText className={`w-6 h-6 ${tab === 'posts' ? 'text-green-400' : 'text-green-700 dark:text-green-400'}`} />
+                    <HiDocumentText className={`w-6 h-6 ${tab === 'posts' ? 'text-green-400' : 'text-green-700 dark:text-green-400'}` } />
                     <span className={`ml-3 ${tab === 'posts' ? 'text-white' : 'text-black dark:text-white'}`}>Posts</span>
                   </div>
                 </Link>

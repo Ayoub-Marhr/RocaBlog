@@ -89,7 +89,6 @@ export default function UpdatePost() {
         e.preventDefault();
         try {
             const slug = generateSlug(formData.title);
-            console.log('Generated Slug:', slug); // Log the generated slug
             const postData = { ...formData, slug };
             
             const res = await fetch(`/api/post/updatePost/${postId}/${currentUser._id}`, {

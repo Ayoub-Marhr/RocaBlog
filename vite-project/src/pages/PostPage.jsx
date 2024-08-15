@@ -28,7 +28,7 @@ const callToActionComponents = {
     it: CallToActionIt,
 };
 
-const getRandomCallToAction = () => {
+export const getRandomCallToAction = () => {
     const keys = Object.keys(callToActionComponents);
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
     return callToActionComponents[randomKey];
