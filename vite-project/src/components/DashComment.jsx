@@ -111,8 +111,8 @@ export default function DashComments() {
           {showMore && (
             <button
               onClick={handleShowMore}
-              className='w-full text-teal-500 self-center text-sm py-7'
-            >
+              className="text-teal-500 text-lg hover:underline p-7 w-full"
+              >
               Show more
             </button>
           )}

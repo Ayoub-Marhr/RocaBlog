@@ -120,8 +120,8 @@ export default function DashUsers() {
       )}
       {showMore && (
         <button
-          className="w-full text-teal-500 self-center text-sm py-7"
-          onClick={handleShowMore}
+        className="text-teal-500 text-lg hover:underline p-7 w-full"
+        onClick={handleShowMore}
         >
           Show more
         </button>
