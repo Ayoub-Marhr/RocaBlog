@@ -20,18 +20,21 @@ export default function PostCard({ post }) {
   }, [post._id]);
 
   return (
-    <div className='group relative w-full border border-gray-200 hover:border-teal-500 h-[420px] overflow-hidden rounded-lg sm:w-[430px] transition-all duration-300 shadow-lg hover:shadow-xl bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700'>
+    <div className='group relative w-full sm:w-[430px] h-[420px] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-teal-500 dark:hover:border-teal-400 rounded-lg overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl'>
       <Link to={`/post/${post.slug}`} className="block relative h-[260px] overflow-hidden">
         <img
           src={post.image}
           alt='post cover'
-          className='h-full w-full object-cover group-hover:scale-105 transition-transform duration-300 z-20'
+          className='h-full w-full object-cover group-hover:scale-105 transition-transform duration-300'
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </Link>
       <div className='p-5 flex flex-col h-[160px]'>
         <div className='flex justify-between items-center mb-2'>
-          <Link to={`/category/${post.category.toLowerCase()}`} className='text-xs font-semibold text-teal-600 dark:text-teal-400 bg-teal-100 dark:bg-teal-900 px-2 py-1 rounded-full hover:bg-teal-200 dark:hover:bg-teal-800 transition-colors duration-200'>
+          <Link 
+            to={`/category/${post.category.toLowerCase()}`} 
+            className='text-xs font-semibold text-teal-600 dark:text-teal-400 bg-teal-100 dark:bg-teal-900/30 px-2 py-1 rounded-full hover:bg-teal-200 dark:hover:bg-teal-800/50 transition-colors duration-200'
+          >
             {post.category}
           </Link>
           <span className='text-xs text-gray-500 dark:text-gray-400'>
@@ -47,7 +50,7 @@ export default function PostCard({ post }) {
           {post.excerpt}
         </p>
         <div className='flex justify-between items-center mt-auto'>
-          <div className='flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400'>
+          <div className='flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400'>
             <span className='flex items-center gap-1'>
               <FaRegClock className='text-teal-500' />
               {Math.ceil(post.content.length / 1000)} min read
@@ -60,12 +63,10 @@ export default function PostCard({ post }) {
         </div>
         <Link
           to={`/post/${post.slug}`}
-          className=' absolute right-4 bottom-4 group-hover:opacity-100 opacity-0 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-600 text-white hover:from-blue-800 hover:via-blue-700 hover:to-blue-500 transition-all duration-300 py-2 px-4 rounded-full font-medium text-sm tracking-wide shadow-md hover:shadow-lg transform hover:scale-100 active:scale-95 border border-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50'
+          className='absolute right-5 bottom-5 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-teal-500 to-blue-500 text-white hover:from-teal-600 hover:to-blue-600 transition-all duration-300 py-2 px-4 rounded-full text-sm font-medium tracking-wide shadow-md hover:shadow-lg transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50'
           aria-label={`Read article: ${post.title}`}
         >
-          <span className='flex items-center justify-center gap-1'>
-            Read articale
-          </span>
+          Read article
         </Link>
       </div>
     </div>
