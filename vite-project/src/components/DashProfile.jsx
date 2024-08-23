@@ -172,7 +172,6 @@ export default function DashProfile() {
         {imageFileUploadError && <Alert color="failure">{imageFileUploadError}</Alert>}
         <TextInput type="text" id="username" placeholder="Username" defaultValue={currentUser.username} onChange={handleChange} />
         <TextInput type="email" id="email" placeholder="Email" defaultValue={currentUser.email} onChange={handleChange} />
-        <TextInput type="password" id="password" placeholder="Password" defaultValue={currentUser.password} onChange={handleChange} />
         <TextInput type="text" id="department" placeholder="Department" defaultValue={currentUser.department} onChange={handleChange} />
         <TextInput type="text" id="job" placeholder="Job" defaultValue={currentUser.job} onChange={handleChange} />
         <Button type="submit" gradientDuoTone="purpleToBlue" outline disabled={loading || imageFileUploading}>

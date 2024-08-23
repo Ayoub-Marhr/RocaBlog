@@ -32,8 +32,14 @@ export default function Home() {
                 </Link>
             </div>
             <div className='max-w-4xl mx-auto w-full mb-16'>
-                <RandomCallToAction />
-            </div>
+            <div className="mt-20 max-w-4xl mx-auto w-full mb-16 p-8 bg-gradient-to-r from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 shadow-2xl rounded-lg border border-gray-200 dark:border-gray-700 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-3xl">
+        <div className="flex flex-col items-center">
+         
+          <div className="w-full flex justify-center">
+            <RandomCallToAction />
+          </div>
+        </div>
+      </div>            </div>
             <div className='max-w-6xl mx-auto py-6 lg:py-12'>
                 {posts && posts.length > 0 && (
                     <div>
